@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.version;
+
 /**
  * Created by jitu on 1/17/2017.
  */
@@ -22,8 +24,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_PH_NO = "phone_number";
 
-    public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DatabaseHandler(Context context) {
+        super(context,DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
