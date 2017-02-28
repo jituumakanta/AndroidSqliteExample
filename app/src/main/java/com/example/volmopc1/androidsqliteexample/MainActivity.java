@@ -17,11 +17,29 @@ public class MainActivity extends Activity {
         DatabaseHandler db = new DatabaseHandler(this);
 
         // Inserting Contacts
-        Log.d("Insert: ", "Inserting ..");
+       /* Log.d("Insert: ", "Inserting ..");
         db.addContact(new Contact("Ravi", "9100000000"));
         db.addContact(new Contact("Srinivas", "9199999999"));
         db.addContact(new Contact("Tommy", "9522222222"));
-        db.addContact(new Contact("Karthik", "9533333333"));
+        db.addContact(new Contact("Karthik", "9533333333"));*/
+       // String s= String.valueOf(db.getContact(1));
+       // Log.d("d",s);
+
+
+
+        //deleting the contact
+        Contact c=new Contact();
+        //db.deleteContact();
+
+        //updating the contact
+        Contact u=new Contact("hari", "9100000000");
+       // db.updateContact(u);
+
+
+
+        //reading single contact
+        db.getContact(2);
+
 
         // Reading all contacts
         Log.d("Reading: ", "Reading all contacts..");

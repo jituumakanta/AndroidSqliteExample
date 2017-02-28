@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_PH_NO = "phone_number";
 
     public DatabaseHandler(Context context) {
-        super(context,DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_CONTACTS_TABLE="CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PH_NO + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PH_NO + " TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -41,8 +42,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Create tables again
         onCreate(sqLiteDatabase);
     }
+
     // code to add the new contact
-    void addContact(Contact contact){
+    void addContact(Contact contact) {
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -64,16 +67,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_PH_NO, contact.getPhoneNumber());
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
+        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[]{String.valueOf(2)});
     }
 
     // Deleting single contact
-    public void deleteContact(Contact contact) {
+    public void deleteContact() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
+        db.delete(TABLE_CONTACTS, KEY_NAME + " = ?", new String[]{String.valueOf("Tommy")});
         db.close();
     }
-
 
 
     // code to get all contacts in a list view
@@ -100,6 +102,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return contact list
         return contactList;
     }
+
     // Getting contacts Count
     public int getContactsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
@@ -114,14 +117,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // code to get the single contact
     Contact getContact(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
+        String tablename = TABLE_CONTACTS;
+        String[] columns_to_return={KEY_ID, KEY_NAME, KEY_PH_NO};
+        //new String[]{KEY_ID, KEY_NAME, KEY_PH_NO};
+        String column_whereclause=KEY_ID + "=?";
+        String[] value_whereclause={String.valueOf(id)};
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID, KEY_NAME, KEY_PH_NO }, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(tablename, columns_to_return, column_whereclause, value_whereclause, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
-
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+        Log.d("vvvv",cursor.getString(1));
+        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
         // return contact
         return contact;
     }
+
+
 }
