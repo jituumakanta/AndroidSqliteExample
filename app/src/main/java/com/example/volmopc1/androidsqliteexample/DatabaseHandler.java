@@ -124,9 +124,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String[] value_whereclause={String.valueOf(id)};
 
         Cursor cursor = db.query(tablename, columns_to_return, column_whereclause, value_whereclause, null, null, null, null);
+
         if (cursor != null)
             cursor.moveToFirst();
+        Log.d("vvvv",cursor.getString(0));
         Log.d("vvvv",cursor.getString(1));
+        Log.d("vvvv",cursor.getString(2));
+        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        // return contact
+        return contact;
+    }
+
+
+
+    Contact getallContact() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String tablename = TABLE_CONTACTS;
+        String[] columns_to_return={KEY_ID, KEY_NAME, KEY_PH_NO};
+        //new String[]{KEY_ID, KEY_NAME, KEY_PH_NO};
+       // String column_whereclause=KEY_ID + "=?";
+       // String[] value_whereclause={String.valueOf(id)};
+
+        Cursor cursor = db.query(tablename, columns_to_return, null, null, null, null, null, null);
+        for(int i=1;i<4;i++){
+            if (cursor != null)
+                cursor.moveToNext();
+            Log.d("vvvv",cursor.getString(0));
+            Log.d("vvvv",cursor.getString(1));
+            Log.d("vvvv",cursor.getString(2));}
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
         // return contact
         return contact;

@@ -40,6 +40,9 @@ public class MainActivity extends Activity {
         //reading single contact
         db.getContact(2);
 
+        //reading all contact
+        db.getallContact();
+
 
         // Reading all contacts
         Log.d("Reading: ", "Reading all contacts..");
